@@ -1,10 +1,8 @@
-import {Router} from 'express';
+import { Router } from 'express';
+import auth from './auth';
+import user from './user';
 
 const router = new Router();
-
-router.get('/test', (req, res) => {
-  res.send('OK');
-});
 
 /**
  * @apiDefine master Master access only
@@ -29,5 +27,7 @@ router.get('/test', (req, res) => {
  * @apiParam {String[]} [sort=-createdAt] Order of returned items.
  * @apiParam {String[]} [fields] Fields to be returned.
  */
+router.use('/users', user);
+router.use('/auth', auth);
 
 export default router;

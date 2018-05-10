@@ -4,6 +4,7 @@
     "stage-1"
   ],
   "plugins": [
-    "transform-runtime"
+    "transform-runtime",
+    "add-module-exports"
   ]
 }

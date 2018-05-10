@@ -1,6 +1,8 @@
-/*/* eslint-disable no-unused-vars */
+/* /* eslint-disable no-unused-vars */
 import path from 'path';
 import dotenv from 'dotenv-safe';
+
+require('babel-core/register');
 
 
 /* istanbul ignore next */
@@ -30,30 +32,29 @@ const config = {
     jwtSecret: requireProcessEnv('JWT_SECRET'),
   },
   test: {
-    username: 'root',
-    password: 'root',
-    database: 'articles',
-    options: {
+    mysql: {
+      username: 'root',
+      password: 'root',
+      database: 'articles',
       host: '127.0.0.1',
       dialect: 'mysql',
     },
   },
   development: {
-    username: 'questionnaire',
-    password: 'jk$7vF$Y%6jNsH6J',
-    database: 'questionnaire_db',
-    options: {
+    mysql: {
+      username: 'questionnaire',
+      password: 'jk$7vF$Y%6jNsH6J',
+      database: 'questionnaire_db',
       host: 'localhost',
+      port: '3306',
       dialect: 'mysql',
     },
   },
   production: {
-    username: 'root',
-    password:
-      'root',
-    database:
-      'articles',
-    options: {
+    mysql: {
+      username: 'root',
+      password: 'root',
+      database: 'articles',
       host: '127.0.0.1',
       dialect: 'mysql',
     },
@@ -62,5 +63,6 @@ const config = {
   },
 };
 
-module.exports = Object.assign(config.all, config[config.all.env]);
-export default module.exports;
+const configExport = Object.assign(config.all, config[config.all.env]);
+
+export default configExport;
