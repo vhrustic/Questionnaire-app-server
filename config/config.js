@@ -30,6 +30,15 @@ const config = {
     apiRoot: process.env.API_ROOT || '',
     masterKey: requireProcessEnv('MASTER_KEY'),
     jwtSecret: requireProcessEnv('JWT_SECRET'),
+    mailOptions: {
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      auth: {
+        user: 'mopquestionnairevejsilhrustic@gmail.com',
+        pass: 'zWiKCR04cXXtUw9bKgx3smy6mgT',
+      },
+    },
   },
   test: {
     mysql: {

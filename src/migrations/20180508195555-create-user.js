@@ -1,4 +1,3 @@
-
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.createTable('Users', {
     id: {
@@ -15,6 +14,12 @@ module.exports = {
     },
     password: {
       type: Sequelize.STRING,
+    },
+    resetPasswordToken: {
+      type: Sequelize.STRING,
+    },
+    resetPasswordExpires: {
+      type: Sequelize.DATE,
     },
     role: {
       type: Sequelize.STRING,

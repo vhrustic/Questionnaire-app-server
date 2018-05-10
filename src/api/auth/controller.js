@@ -1,10 +1,44 @@
-import { sign } from '../../services/jwt';
-import { success } from '../../services/response/';
+import crypto from 'crypto';
+import {sign} from '../../services/jwt';
+import {success, notFound} from '../../services/response/';
+import {User} from './../../models/';
+import {createMailOptions, createTransport, getResetPasswordUrl} from '../../services/email';
 
-const login = ({ user }, res, next) =>
+const REST_PASSWORD_EXPIRES = 21600000; // 6 hours
+
+export const login = ({user}, res, next) =>
   sign(user.id)
-    .then(token => ({ token, user }))
+    .then(token => ({token, user}))
     .then(success(res, 201))
     .catch(next);
 
-export default login;
+export const forgotPassword = (req, res) => {
+  const {email} = req.body;
+  User.findOne({where: {email}}).then(notFound(res)).then((user) => {
+    if (!user) {
+      return null;
+    }
+    crypto.randomBytes(20, (err, buffer) => {
+      const resetPasswordToken = buffer.toString('hex');
+      user.update({
+        resetPasswordToken,
+        resetPasswordExpires: Date.now() + REST_PASSWORD_EXPIRES,
+      }).then((updatedUser) => {
+        const transporter = createTransport();
+        const resetPasswordUrl = getResetPasswordUrl(req, resetPasswordToken);
+        const mailOptions = createMailOptions(updatedUser, resetPasswordUrl);
+        transporter.sendMail(mailOptions, (sendErr) => {
+          if (sendErr) {
+            return res.status(422).json({
+              message: 'Failed to send email with instructions for resetting password',
+            });
+          }
+          return res.status(200).json({
+            message: `An email has been sent to ${updatedUser.email} with further instructions.`,
+          });
+        });
+      });
+    });
+  });
+};
+

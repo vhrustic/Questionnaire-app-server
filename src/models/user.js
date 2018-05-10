@@ -6,6 +6,8 @@ const user = (sequelize, DataTypes) => {
     fullName: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
+    resetPasswordToken: DataTypes.STRING,
+    resetPasswordExpires: DataTypes.DATE,
     role: DataTypes.STRING,
   }, {});
   User.associate = function (models) {
