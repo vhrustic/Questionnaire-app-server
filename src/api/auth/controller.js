@@ -58,8 +58,7 @@ export const resetPassword = (req, res) => {
       if (!user) {
         return null;
       }
-      user.password = password;
-      user.hashPassword().then((hashedPassword) => {
+      User.hashPassword(password).then((hashedPassword) => {
         user.updateAttributes({
           password: hashedPassword,
           resetPasswordExpires: new Date(0),

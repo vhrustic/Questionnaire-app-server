@@ -9,14 +9,15 @@ const user = (sequelize, DataTypes) => {
     resetPasswordToken: DataTypes.STRING,
     resetPasswordExpires: DataTypes.DATE,
     role: DataTypes.STRING,
-  }, {});
+  });
   User.associate = function (models) {
     // associations can be defined here
   };
-  // instance methods
-  User.prototype.hashPassword = function () {
-    return bcrypt.hash(this.password, 10);
+  // class methods
+  User.hashPassword = function (password) {
+    return bcrypt.hash(password, 10);
   };
+  // instance methods
   User.prototype.authenticate = function (password, hashedPassword) {
     return bcrypt.compare(password, hashedPassword).then((valid) => {
       if (!valid) {
@@ -27,7 +28,7 @@ const user = (sequelize, DataTypes) => {
   };
   // hooks
   User.hook('beforeCreate', (userInstance) => {
-    return userInstance.hashPassword().then((hashedPassword) => {
+    return this.hashPassword(userInstance.password).then((hashedPassword) => {
       userInstance.password = hashedPassword;
     }).catch(err => sequelize.Promise.reject(err));
   });
