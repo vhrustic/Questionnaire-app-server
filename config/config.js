@@ -28,7 +28,6 @@ const config = {
     port: process.env.PORT || 3001,
     ip: process.env.IP || '0.0.0.0',
     apiRoot: process.env.API_ROOT || '',
-    masterKey: requireProcessEnv('MASTER_KEY'),
     jwtSecret: requireProcessEnv('JWT_SECRET'),
     mailOptions: {
       host: 'smtp.gmail.com',

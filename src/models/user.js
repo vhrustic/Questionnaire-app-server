@@ -20,11 +20,19 @@ const user = (sequelize, DataTypes) => {
   // instance methods
   User.prototype.authenticate = function (password, hashedPassword) {
     return bcrypt.compare(password, hashedPassword).then((valid) => {
+      console.log(valid);
       if (!valid) {
         return null;
       }
       return this;
     });
+  };
+  User.prototype.view = function () {
+    return {
+      fullName: this.fullName,
+      email: this.email,
+      role: this.role
+    };
   };
   // hooks
   User.hook('beforeCreate', (userInstance) => {

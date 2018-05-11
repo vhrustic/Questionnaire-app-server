@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { master } from '../../services/passport';
 import { create } from './controller';
 
 const router = new Router();
@@ -22,7 +21,6 @@ const router = new Router();
  */
 router.post(
   '/',
-  master(),
   create,
 );
 

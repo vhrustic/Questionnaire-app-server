@@ -7,7 +7,7 @@ export const create = (req, res, next) => {
   return User.create({ fullName, email, password })
     .then((user) => {
       sign(user.id)
-        .then(token => ({ token, user }))
+        .then(token => ({ token, user: user.view() }))
         .then(success(res, 201));
     })
     .catch((err) => {

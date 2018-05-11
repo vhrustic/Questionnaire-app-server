@@ -9,7 +9,7 @@ const REST_PASSWORD_EXPIRES = 21600000; // 6 hours
 
 export const login = ({user}, res, next) =>
   sign(user.id)
-    .then(token => ({token, user}))
+    .then(token => ({token, user: user.view()}))
     .then(success(res, 201))
     .catch(next);
 

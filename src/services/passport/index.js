@@ -2,7 +2,7 @@ import passport from 'passport';
 import { BasicStrategy } from 'passport-http';
 import { Strategy as BearerStrategy } from 'passport-http-bearer';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
-import { jwtSecret, masterKey } from '../../../config/config';
+import { jwtSecret } from '../../../config/config';
 import { User } from './../../models';
 
 export const password = () => (req, res, next) =>
@@ -17,9 +17,6 @@ export const password = () => (req, res, next) =>
       next();
     });
   })(req, res, next);
-
-export const master = () =>
-  passport.authenticate('master', { session: false });
 
 export const token = ({ required, roles = User.roles } = {}) => (req, res, next) =>
   passport.authenticate('token', { session: false }, (err, user, info) => {
@@ -43,14 +40,6 @@ passport.use('password', new BasicStrategy((email, plainPassword, done) => {
       return null;
     }).catch(done);
   });
-}));
-
-passport.use('master', new BearerStrategy((token, done) => {
-  if (token === masterKey) {
-    done(null, {});
-  } else {
-    done(null, false);
-  }
 }));
 
 passport.use('token', new JwtStrategy({

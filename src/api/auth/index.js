@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import {login, forgotPassword, resetPassword} from './controller';
-import {password, master} from '../../services/passport';
+import {password} from '../../services/passport';
 
 const router = new Router();
 
@@ -22,7 +22,6 @@ router.put('/forgot-password', resetPassword);
 
 router.post(
   '/',
-  master(),
   password(),
   login,
 );
