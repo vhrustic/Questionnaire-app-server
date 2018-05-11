@@ -1,10 +1,12 @@
 import {Router} from 'express';
-import {login, forgotPassword} from './controller';
+import {login, forgotPassword, resetPassword} from './controller';
 import {password, master} from '../../services/passport';
 
 const router = new Router();
 
 router.post('/forgot-password', forgotPassword);
+
+router.put('/forgot-password', resetPassword);
 
 /**
  * @api {post} /auth Authenticate
