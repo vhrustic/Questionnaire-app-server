@@ -3,6 +3,7 @@ import { mysql } from './../../config/config';
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
+require('sequelize-isunique-validator')(Sequelize);
 
 const basename = path.basename(__filename);
 const db = {};

@@ -1,6 +1,5 @@
 import passport from 'passport';
 import { BasicStrategy } from 'passport-http';
-import { Strategy as BearerStrategy } from 'passport-http-bearer';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import { jwtSecret } from '../../../config/config';
 import { User } from './../../models';

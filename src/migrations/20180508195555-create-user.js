@@ -8,12 +8,16 @@ module.exports = {
     },
     fullName: {
       type: Sequelize.STRING,
+      allowNull: false,
     },
     email: {
       type: Sequelize.STRING,
+      unique: true,
+      allowNull: false,
     },
     password: {
       type: Sequelize.STRING,
+      allowNull: false,
     },
     resetPasswordToken: {
       type: Sequelize.STRING,
@@ -23,6 +27,8 @@ module.exports = {
     },
     role: {
       type: Sequelize.STRING,
+      allowNull: false,
+      defaultValue: 'user',
     },
     createdAt: {
       allowNull: false,

@@ -15,7 +15,16 @@ export const login = ({user}, res, next) =>
 
 export const forgotPassword = (req, res) => {
   const {email} = req.body;
-  User.findOne({where: {email}}).then(notFound(res))
+  User.findOne({where: {email}})
+    .then((user) => {
+      if (!user) {
+        res.status(404).json({
+          message: 'Failed to send email with instructions. Please check if you have entered correct email address.'
+        });
+        return null;
+      }
+      return user;
+    })
     .then((user) => {
       if (!user) {
         return null;
@@ -32,7 +41,7 @@ export const forgotPassword = (req, res) => {
           transporter.sendMail(mailOptions, (sendErr) => {
             if (sendErr) {
               return res.status(422).json({
-                message: 'Failed to send email with instructions for resetting password',
+                message: 'Failed to send email with instructions for resetting password.',
               });
             }
             return res.status(200).json({

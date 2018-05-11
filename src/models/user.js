@@ -3,12 +3,33 @@ import bcrypt from 'bcrypt';
 
 const user = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
-    fullName: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
+    fullName: {
+      type: DataTypes.STRING,
+      validate: {
+        len: [2, 50],
+      },
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+      validate: {
+        isEmail: true,
+        len: [4, 50],
+      },
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     resetPasswordToken: DataTypes.STRING,
     resetPasswordExpires: DataTypes.DATE,
-    role: DataTypes.STRING,
+    role: {
+      type: DataTypes.STRING,
+      defaultValue: 'user',
+      allowNull: false,
+    },
   });
   User.associate = function (models) {
     // associations can be defined here
@@ -20,7 +41,6 @@ const user = (sequelize, DataTypes) => {
   // instance methods
   User.prototype.authenticate = function (password, hashedPassword) {
     return bcrypt.compare(password, hashedPassword).then((valid) => {
-      console.log(valid);
       if (!valid) {
         return null;
       }
@@ -31,11 +51,11 @@ const user = (sequelize, DataTypes) => {
     return {
       fullName: this.fullName,
       email: this.email,
-      role: this.role
+      role: this.role || 'user',
     };
   };
   // hooks
-  User.hook('beforeCreate', (userInstance) => {
+  User.hook('beforeCreate', function (userInstance) {
     return this.hashPassword(userInstance.password).then((hashedPassword) => {
       userInstance.password = hashedPassword;
     }).catch(err => sequelize.Promise.reject(err));
