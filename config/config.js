@@ -57,6 +57,7 @@ const config = {
       host: 'localhost',
       port: '3306',
       dialect: 'mysql',
+      seedStorage: 'sequelize',
     },
   },
   production: {
@@ -67,6 +68,7 @@ const config = {
       database: 'articles',
       host: '127.0.0.1',
       dialect: 'mysql',
+      seedStorage: 'sequelize',
     },
     ip: process.env.IP || undefined,
     port: process.env.PORT || 3001,
