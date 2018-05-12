@@ -62,7 +62,15 @@ export const resetPassword = (req, res) => {
         [Op.and]: [{resetPasswordToken: token}, {resetPasswordExpires: {[Op.gt]: Date.now()}}]
       }
   })
-    .then(notFound(res))
+    .then((user) => {
+      if (!user) {
+        res.status(404).json({
+          message: 'Your token for reseting password is expired or invalid.',
+        });
+        return null;
+      }
+      return user;
+    })
     .then((user) => {
       if (!user) {
         return null;

@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import {mailOptions} from './../../../config/config';
+import {mailOptions, clientUrl} from './../../../config/config';
 
 export const createTransport = () => nodemailer.createTransport(mailOptions);
 
@@ -22,5 +22,5 @@ export const createMailOptions = (user, resetPasswordUrl) => {
 };
 
 export const getResetPasswordUrl = (req, token) => {
-  return `${req.protocol}://${req.headers.host}${req.originalUrl}?token=${token}`;
+  return `${clientUrl}reset-password?token=${token}`;
 };

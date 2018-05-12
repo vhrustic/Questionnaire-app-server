@@ -49,6 +49,7 @@ const config = {
     },
   },
   development: {
+    clientUrl: 'http://localhost:3000/',
     mysql: {
       username: 'questionnaire',
       password: 'jk$7vF$Y%6jNsH6J',
@@ -59,6 +60,7 @@ const config = {
     },
   },
   production: {
+    clientUrl: 'https://question-client-app.herokuapp.com/',
     mysql: {
       username: 'root',
       password: 'root',
