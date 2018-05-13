@@ -61,6 +61,6 @@ export const deleteQuestion = (req, res) => {
     if (!count) {
       return null;
     }
-    return res.status(200).send();
+    return res.status(200).json({id: questionId});
   }).catch(failure(res, 400));
 };

@@ -6,7 +6,7 @@ export const getQuestionnaire = (req, res) => {
   Questionnaire.findOne({
     where: {id: questionnaireId},
     include: [{model: Page, as: 'pages'}],
-    order: [[{ model: Page, as: 'pages' }, 'createdAt', 'asc' ]],
+    order: [[{model: Page, as: 'pages'}, 'createdAt', 'asc']],
   }).then(notFound(res)).then((questionnaire) => {
     if (!questionnaire) {
       return null;
@@ -54,6 +54,6 @@ export const deleteQuestionnaire = (req, res) => {
     if (!count) {
       return null;
     }
-    return res.status(200).send();
+    return res.status(200).json({id: questionnaireId});
   }).catch(failure(res, 400));
 };

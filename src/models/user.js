@@ -32,6 +32,7 @@ const user = (sequelize, DataTypes) => {
     },
   });
   User.associate = function (models) {
+    User.hasMany(models.Answer, {as: 'answers', foreignKey: 'userId'});
     // associations can be defined here
   };
   // class methods

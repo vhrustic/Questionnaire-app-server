@@ -5,7 +5,7 @@ import { token } from '../../services/passport';
 const router = new Router();
 
 router.get(
-  '/:pageId',
+  '/:questionnaireId/:pageId',
   token({ required: true, roles: ['admin'] }),
   getPage,
 );
