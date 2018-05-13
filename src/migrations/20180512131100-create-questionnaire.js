@@ -13,6 +13,7 @@ module.exports = {
     createdBy: {
       type: Sequelize.INTEGER,
       allowNull: false,
+      onDelete: 'CASCADE',
       references: { model: 'Users', key: 'id' },
     },
     createdAt: {
@@ -26,3 +27,4 @@ module.exports = {
   }),
   down: (queryInterface, Sequelize) => queryInterface.dropTable('Questionnaires'),
 };
+

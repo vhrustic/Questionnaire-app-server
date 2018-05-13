@@ -17,6 +17,7 @@ module.exports = {
     pageId: {
       type: Sequelize.INTEGER,
       allowNull: false,
+      onDelete: 'CASCADE',
       references: { model: 'Pages', key: 'id' },
     },
     createdAt: {

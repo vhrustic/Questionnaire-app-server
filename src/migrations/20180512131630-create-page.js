@@ -9,6 +9,7 @@ module.exports = {
     questionnaireId: {
       type: Sequelize.INTEGER,
       allowNull: false,
+      onDelete: 'CASCADE',
       references: { model: 'Questionnaires', key: 'id' },
     },
     createdAt: {
