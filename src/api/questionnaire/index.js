@@ -1,8 +1,14 @@
 import { Router } from 'express';
-import {createQuestionnaire, deleteQuestionnaire, getQuestionnaire, updateQuestionnaire} from './controller';
+import {createQuestionnaire, deleteQuestionnaire, getQuestionnaire, getAllQuestionnaires, updateQuestionnaire} from './controller';
 import { token } from '../../services/passport';
 
 const router = new Router();
+
+router.get(
+  '/',
+  token({ required: true, roles: ['admin'] }),
+  getAllQuestionnaires,
+);
 
 router.get(
   '/:questionnaireId',

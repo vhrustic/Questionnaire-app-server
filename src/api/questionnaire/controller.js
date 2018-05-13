@@ -1,6 +1,26 @@
 import {Questionnaire, Page} from './../../models/';
 import {failure, notFound} from '../../services/response';
 
+export const getQuestionnaire = (req, res) => {
+  const {questionnaireId} = req.params;
+  Questionnaire.findById(questionnaireId).then(notFound(res)).then((questionnaire) => {
+    if (!questionnaire) {
+      return null;
+    }
+    return res.status(200).json(questionnaire);
+  }).catch(failure(res, 400));
+};
+
+
+export const getAllQuestionnaires = (req, res) => {
+  Questionnaire.findAll({where: {createdBy: req.user.id}}).then(notFound(res)).then((questionnaires) => {
+    if (!questionnaires) {
+      return null;
+    }
+    return res.status(200).json(questionnaires);
+  }).catch(failure(res, 400));
+};
+
 export const createQuestionnaire = (req, res) => {
   const {title} = req.body;
   const user = req.user;
@@ -12,15 +32,6 @@ export const createQuestionnaire = (req, res) => {
   }).catch(failure(res, 400));
 };
 
-export const getQuestionnaire = (req, res) => {
-  const {questionnaireId} = req.params;
-  Questionnaire.findById(questionnaireId).then(notFound(res)).then((questionnaire) => {
-    if (!questionnaire) {
-      return null;
-    }
-    return res.status(200).json(questionnaire);
-  }).catch(failure(res, 400));
-};
 
 export const updateQuestionnaire = (req, res) => {
   const {questionnaireId} = req.params;
