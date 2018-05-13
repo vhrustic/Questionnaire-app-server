@@ -12,6 +12,7 @@ const questionnaire = (sequelize, DataTypes) => {
   });
   Questionnaire.associate = function (models) {
     Questionnaire.belongsTo(models.User, { foreignKey: 'createdBy' });
+    Questionnaire.hasMany(models.Page,{as: 'pages'});
   };
   return Questionnaire;
 };

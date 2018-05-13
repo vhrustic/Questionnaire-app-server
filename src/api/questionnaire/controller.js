@@ -3,7 +3,11 @@ import {failure, notFound} from '../../services/response';
 
 export const getQuestionnaire = (req, res) => {
   const {questionnaireId} = req.params;
-  Questionnaire.findById(questionnaireId).then(notFound(res)).then((questionnaire) => {
+  Questionnaire.findOne({
+    where: {id: questionnaireId},
+    include: [{model: Page, as: 'pages'}],
+    order: [[{ model: Page, as: 'pages' }, 'createdAt', 'asc' ]],
+  }).then(notFound(res)).then((questionnaire) => {
     if (!questionnaire) {
       return null;
     }
