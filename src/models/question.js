@@ -19,6 +19,7 @@ const question = (sequelize, DataTypes) => {
   });
   Question.associate = function (models) {
     Question.belongsTo(models.Page, {foreignKey: 'pageId'});
+    Question.hasMany(models.Option,{as: 'options'});
   };
   return Question;
 };

@@ -6,7 +6,7 @@ export const createQuestionnaire = (req, res) => {
   const user = req.user;
   Questionnaire.create({title, createdBy: user.id}).then((createdModel) => {
     Page.create({questionnaireId: createdModel.id}).then((createdPage) => {
-      const resp = {...createdModel.dataValues, pages: createdPage.dataValues};
+      const resp = {...createdModel.dataValues, pages: [createdPage.dataValues]};
       return res.status(200).json(resp);
     }).catch(failure(res, 400));
   }).catch(failure(res, 400));

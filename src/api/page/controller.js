@@ -1,4 +1,4 @@
-import {Page} from './../../models/';
+import {Page, Question} from './../../models/';
 import {failure, notFound} from '../../services/response';
 
 export const createPage = (req, res) => {
@@ -10,7 +10,13 @@ export const createPage = (req, res) => {
 
 export const getPage = (req, res) => {
   const {pageId} = req.params;
-  Page.findById(pageId).then(notFound(res)).then((page) => {
+  Page.findOne({
+    where: {id: pageId},
+    include: [{
+      model: Question,
+      as: 'questions',
+    }]
+  }).then(notFound(res)).then((page) => {
     if (!page) {
       return null;
     }
