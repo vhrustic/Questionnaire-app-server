@@ -5,7 +5,7 @@ import {
   getQuestionnaire,
   getAllQuestionnaires,
   updateQuestionnaire,
-  getUncompletedQuestionnaires,
+  getUncompletedQuestionnaires, getUserQuestionnaire,
 } from './controller';
 import {token} from '../../services/passport';
 
@@ -13,8 +13,14 @@ const router = new Router();
 
 router.get(
   '/uncompleted/all',
-  token({required: true}),
+  token({required: true, roles: ['user']}),
   getUncompletedQuestionnaires
+);
+
+router.get(
+  '/uncompleted/:questionnaireId',
+  token({required: true, roles: ['user']}),
+  getUserQuestionnaire
 );
 
 router.get(

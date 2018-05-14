@@ -15,6 +15,30 @@ export const getQuestionnaire = (req, res) => {
   }).catch(failure(res, 400));
 };
 
+export const getUserQuestionnaire = (req, res) => {
+  const {questionnaireId} = req.params;
+  Questionnaire.findOne({
+    where: {id: questionnaireId},
+    include: [{
+      model: Page,
+      as: 'pages',
+      attributes: {exclude: ['createdAt', 'updatedAt', 'questionnaireId']},
+      include: [{
+        model: Question,
+        as: 'questions',
+        attributes: {exclude: ['createdAt', 'updatedAt', 'pageId']},
+        include: [{
+          model: Option, as: 'options', attributes: {exclude: ['createdAt', 'updatedAt', 'questionId']},
+        }]
+      }]
+    }],
+  }).then(notFound(res)).then((questionnaire) => {
+    if (!questionnaire) {
+      return null;
+    }
+    return res.status(200).json(questionnaire);
+  }).catch(failure(res, 400));
+};
 
 export const getAllQuestionnaires = (req, res) => {
   Questionnaire.findAll({where: {createdBy: req.user.id}}).then(notFound(res)).then((questionnaires) => {
@@ -27,9 +51,13 @@ export const getAllQuestionnaires = (req, res) => {
 
 export const getUncompletedQuestionnaires = (req, res) => {
   const userId = req.user.id;
-  sequelize.query(`SELECT DISTINCT qn.id, qn.title, qn.createdBy, qn.createdAt, qn.updatedAt
-FROM questionnaires qn, users u, pages p, questions q, options o, answers a
-WHERE qn.id = p.questionnaireId AND p.id = q.pageId AND q.id = o.questionId AND o.id = a.optionId AND u.id != :userId;`, {
+  sequelize.query(`SELECT * 
+FROM questionnaires
+WHERE id NOT IN(SELECT questionnaireId FROM (SELECT p.questionnaireId, a.userId
+FROM questionnaires qn, pages p, questions q, options o, answers a
+WHERE qn.id = p.questionnaireId AND p.id = q.pageId AND q.id = o.questionId AND o.id = a.optionId AND a.userId = :userId
+GROUP BY userId, questionnaireId
+ORDER BY qn.createdAt ASC) as temp);`, {
     replacements: {userId},
     type: sequelize.QueryTypes.SELECT,
   }).then(resp => {
