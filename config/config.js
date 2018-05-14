@@ -63,10 +63,10 @@ const config = {
   production: {
     clientUrl: 'https://question-client-app.herokuapp.com/',
     mysql: {
-      username: 'root',
-      password: 'root',
-      database: 'articles',
-      host: '127.0.0.1',
+      username: 'b741df4418212a',
+      password: 'b38f1fd9',
+      database: 'heroku_7a31494077d87cf',
+      host: 'us-cdbr-iron-east-04.cleardb.net',
       dialect: 'mysql',
       seedStorage: 'sequelize',
     },
