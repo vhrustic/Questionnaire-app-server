@@ -5,7 +5,7 @@ const question = (sequelize, DataTypes) => {
     title: {
       type: DataTypes.STRING,
       validate: {
-        len: [3, 250],
+        len: [1, 250],
       },
       allowNull: false,
     },

@@ -14,12 +14,14 @@ module.exports = {
       type: Sequelize.INTEGER,
       allowNull: false,
       onDelete: 'CASCADE',
+      primaryKey: true,
       references: { model: 'Options', key: 'id' },
     },
     userId: {
       type: Sequelize.INTEGER,
       allowNull: false,
       onDelete: 'CASCADE',
+      primaryKey: true,
       references: { model: 'Users', key: 'id' },
     },
     createdAt: {
