@@ -24,9 +24,13 @@ export const getPage = (req, res) => {
       return null;
     }
     const pageNumber = pages.findIndex(p => p.id === parseInt(pageId, 10));
+    const previousPage = pages[pageNumber - 1] ? pages[pageNumber - 1].id : -1;
+    const nextPage = pages[pageNumber + 1] ? pages[pageNumber + 1].id : -1;
     const page = {
       ...pages[pageNumber].dataValues,
       pageNumber: pageNumber + 1,
+      previousPage,
+      nextPage,
     };
     return res.status(200).json(page);
   }).catch(failure(res, 400));

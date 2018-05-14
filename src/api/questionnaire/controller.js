@@ -1,4 +1,4 @@
-import {Questionnaire, Page} from './../../models/';
+import {Questionnaire, Page, Question, Option, Answer, sequelize, Sequelize} from './../../models/';
 import {failure, notFound} from '../../services/response';
 
 export const getQuestionnaire = (req, res) => {
@@ -25,6 +25,19 @@ export const getAllQuestionnaires = (req, res) => {
   }).catch(failure(res, 400));
 };
 
+export const getUncompletedQuestionnaires = (req, res) => {
+  const userId = req.user.id;
+  sequelize.query(`SELECT DISTINCT qn.id, qn.title, qn.createdBy, qn.createdAt, qn.updatedAt
+FROM questionnaires qn, users u, pages p, questions q, options o, answers a
+WHERE qn.id = p.questionnaireId AND p.id = q.pageId AND q.id = o.questionId AND o.id = a.optionId AND u.id != :userId;`, {
+    replacements: {userId},
+    type: sequelize.QueryTypes.SELECT,
+  }).then(resp => {
+    res.json(resp);
+  });
+};
+
+
 export const createQuestionnaire = (req, res) => {
   const {title} = req.body;
   const user = req.user;
@@ -44,7 +57,7 @@ export const updateQuestionnaire = (req, res) => {
     if (!count) {
       return null;
     }
-    return res.status(200).send();
+    return res.status(200).json({id: questionnaireId});
   }).catch(failure(res, 400));
 };
 
