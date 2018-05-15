@@ -1,21 +1,26 @@
 import crypto from 'crypto';
-import { sign } from '../../services/jwt';
-import { success } from '../../services/response/';
-import { User } from './../../models/';
-import { createMailOptions, createTransport, getResetPasswordUrl } from '../../services/email';
+import {sign} from '../../services/jwt';
+import {success} from '../../services/response/';
+import {User} from './../../models/';
+import {createMailOptions, createTransport, getResetPasswordUrl} from '../../services/email';
 import * as Op from 'sequelize/lib/operators';
 
 const REST_PASSWORD_EXPIRES = 21600000; // 6 hours
 
-export const login = ({ user }, res, next) =>
+export const login = ({user}, res, next) =>
   sign(user.id)
-    .then(token => ({ token, user: user.view() }))
+    .then(token => ({token, user: user.view()}))
     .then(success(res, 201))
     .catch(next);
 
 export const forgotPassword = (req, res) => {
-  const { email } = req.body;
-  User.findOne({ where: { email } })
+  const {email} = req.body;
+  User.findOne({
+    where: {
+      [Op.and]:
+        [{email}, {facebookId: null}]
+    }
+  })
     .then((user) => {
       if (!user) {
         res.status(404).json({
@@ -54,12 +59,12 @@ export const forgotPassword = (req, res) => {
 };
 
 export const resetPassword = (req, res) => {
-  const { token } = req.query;
-  const { password } = req.body;
+  const {token} = req.query;
+  const {password} = req.body;
   User.findOne({
     where:
       {
-        [Op.and]: [{ resetPasswordToken: token }, { resetPasswordExpires: { [Op.gt]: Date.now() } }],
+        [Op.and]: [{resetPasswordToken: token}, {resetPasswordExpires: {[Op.gt]: Date.now()}}],
       },
   })
     .then((user) => {
