@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import {login, forgotPassword, resetPassword} from './controller';
-import {password} from '../../services/passport';
+import {facebookAuthentication, password} from '../../services/passport';
 
 const router = new Router();
 
@@ -11,6 +11,12 @@ router.put('/forgot-password', resetPassword);
 router.post(
   '/',
   password(),
+  login,
+);
+
+router.post(
+  '/facebook/token',
+  facebookAuthentication(),
   login,
 );
 

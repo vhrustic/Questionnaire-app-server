@@ -29,6 +29,10 @@ const config = {
     ip: process.env.IP || '0.0.0.0',
     apiRoot: process.env.API_ROOT || '',
     jwtSecret: requireProcessEnv('JWT_SECRET'),
+    facebook: {
+      clientID: '356869268168181',
+      clientSecret: '6586e37cf43e97427b179cad686ce78b',
+    },
     mailOptions: {
       host: 'smtp.gmail.com',
       port: 465,

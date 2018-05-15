@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import { sign } from '../../services/jwt';
-import { success, notFound } from '../../services/response/';
+import { success } from '../../services/response/';
 import { User } from './../../models/';
 import { createMailOptions, createTransport, getResetPasswordUrl } from '../../services/email';
 import * as Op from 'sequelize/lib/operators';

@@ -30,6 +30,9 @@ const user = (sequelize, DataTypes) => {
       defaultValue: 'user',
       allowNull: false,
     },
+    facebookId: {
+      type: DataTypes.STRING,
+    },
   });
   User.associate = function (models) {
     User.hasMany(models.Answer, {as: 'answers', foreignKey: 'userId'});
