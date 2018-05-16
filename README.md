@@ -3,6 +3,17 @@
 Server side application for [Questionnaire application](https://github.com/vhrustic/Questionnaire-app-client). Project is developed using NodeJs with ExpressJs.
 User authentication is enabled using either standard credentials or Facebook login. All authorization is done using JWT token.
 
+## Application features
+* User registration and login
+* Facebook login
+* Reset password using email
+* Creating, editing and deleting questionnaire
+* Adding, editing and removing questions from questionnaire
+* Four question types(Text, Single choice, Multiple choice, Yes - no)
+* Listing all uncompleted questionnaires
+* Filling uncompleted questionnaire
+
+
 ### Running project
 Before you run project, make sure that database credentials are same as in `config/config.js` file. Check database hostname, user credentials and database schema. If you don't have schema specified in `config.js` file, you'll need to create it.
 

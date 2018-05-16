@@ -64,7 +64,6 @@ passport.use(new FacebookTokenStrategy(facebook, (accessToken, refreshToken, pro
     defaults: {
       facebookId: profile.id,
       fullName: profile.displayName,
-      email: 'a@a.aa',
       password: 'N/A',
     }
   }).then((result) => {
